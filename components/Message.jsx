@@ -1,12 +1,17 @@
 import PersonIcon from '@mui/icons-material/Person';
+import { marked } from 'marked';
+import { useEffect, useRef } from 'react';
 
 export default function Message ({mD}) {
-    // mD stands for mD
-
+    const ref = useRef(null);
     const avatars = {
         "bot": "🤖",
         "user": <PersonIcon />
     };
+
+    useEffect((e) => {
+        ref.current.innerHTML = marked(mD.message);
+    }, [mD.message])
 
     return <>
             <div className={`message senderIs${mD.sentBy}`}>
@@ -16,8 +21,7 @@ export default function Message ({mD}) {
                         <b>{mD.sentBy.toUpperCase()}</b>
                         <span>{mD.time}</span>
                     </div>
-                    <div className="message-body">
-                        {mD.message}
+                    <div className="message-body" ref={ref}>
                     </div>
                 </div>
             </div>

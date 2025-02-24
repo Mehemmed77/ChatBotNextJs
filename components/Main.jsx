@@ -12,7 +12,7 @@ export default function Main() {
     }, []);
 
     return <>
-        <Context.Provider value={{messages, addMessage}}>
+        <Context.Provider value={{messages, addMessage, setMessages}}>
             <MessagesContainer />
             <SendMessage />
         </Context.Provider>

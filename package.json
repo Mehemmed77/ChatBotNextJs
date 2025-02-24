@@ -6,12 +6,15 @@
     "start": "next start"
   },
   "dependencies": {
-    "next": "latest",
-    "react": "latest",
-    "react-dom": "latest",
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.0",
     "@mui/icons-material": "^6.4.2",
+    "axios": "^1.7.9",
+    "marked": "^15.0.7",
+    "next": "latest",
+    "openai": "^4.85.4",
+    "react": "latest",
+    "react-dom": "latest",
     "uuid": "^11.0.5"
   },
   "engines": {
