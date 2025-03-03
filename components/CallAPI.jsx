@@ -19,9 +19,8 @@ export default async function CallAPI(message) {
 
         const data = await response.json();
 
-        console.log(data.choices);
-        return data.choices[0]?.message?.content || "Error: No response received";
-
+        console.log(data);
+        // return data.choices[0]?.message?.content || "Error: No response received";
     } catch (error) {
         console.log(error);
     }
