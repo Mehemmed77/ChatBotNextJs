@@ -5,13 +5,15 @@ import axios from 'axios';
 export default async function handler(req, res) {
     if (req.method === 'POST') {
         try {
-            const prompt = req.body.prompt;
+            const prompt = req.body.message;
+            console.log(prompt);
 
             const response = await axios.post('http://localhost:11434/api/generate', {
             model: 'deepseek-r1:7b',
             prompt: prompt,
             stream: false
             });
+
             res.status(200).json({ response: response.data.response });
         }
 

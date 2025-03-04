@@ -1,6 +1,6 @@
 #root{
     width: 100%;
-    max-width: 800px;
+    max-width: 900px;
     margin: 0px auto;
     display: flex;
     flex-direction: column;
@@ -40,6 +40,12 @@
 .senderIsuser {
     flex-direction: row-reverse;
     padding:5px;
+}
+
+.actions{
+    display:flex;
+    margin-block-start: 10px;
+    gap: 7px;
 }
 
 .info-container {

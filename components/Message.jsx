@@ -1,12 +1,13 @@
 import { marked } from 'marked';
 import { useEffect, useRef, useState } from 'react';
+import BotActions from './BotActions';
 
 export default function Message ({mD}) {
     const ref = useRef(null);
 
     useEffect(() => {
         ref.current.innerHTML = marked(mD.message);
-    }, [mD.message])
+    }, [mD.message]);
 
     return <>
             <div className={`message senderIs${mD.sentBy}`}>
@@ -18,6 +19,7 @@ export default function Message ({mD}) {
                     <div className="message-body">
                         <article className='article' ref={ref}></article>
                     </div>
+                    {mD.sentBy === "bot" && <BotActions />}
                 </div>
             </div>
     </>
