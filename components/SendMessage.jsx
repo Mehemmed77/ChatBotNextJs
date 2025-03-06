@@ -1,19 +1,18 @@
 import SendIcon from '@mui/icons-material/Send';
 import Button from '@mui/material/Button';
 import { v4 as id } from 'uuid';
-import { useContext, useState } from 'react';
+import { useContext, useState,useEffect } from 'react';
 import Context from './Context';
 import getCurrentTime24Hour from './getCurrentTime24Hour';
 import handleApi from './handleApiCalls';
+import SendToBackend from './sendApiToBackend';
 
 export default function SendMessage() {
     const [message, setMessage] = useState("");
     const {addMessage, setMessages} = useContext(Context);
     const [isDisabled, setIsDisabled] = useState(false);
 
-    const handleChange = (e) => {
-        setMessage(e.target.value);
-    }
+    const handleChange = (e) => setMessage(e.target.value);
 
     const handleClick = async () => {
         if(message.trim() === "") return;
@@ -29,6 +28,9 @@ export default function SendMessage() {
         setMessages((prev) => prev.map(msg => msg.id === botLoadingMessage.id ? { ...msg, message: botResponse } : msg));
 
         setIsDisabled(false);
+
+        // const req = {user_message: message, bot_response: botResponse};
+        // SendToBackend(req);
     }
 
     return <>

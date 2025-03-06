@@ -1,7 +1,7 @@
 import Context from "./Context";
 import FormHeader from "./Header";
 import Message from "./Message";
-import { useContext, useRef } from "react";
+import { useContext, useRef, useEffect } from "react";
 import useAutoScroll from "./useAutoScroll";
 import BotActions from "./BotActions";
 
