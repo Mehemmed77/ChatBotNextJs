@@ -1,7 +1,13 @@
+import ChatsContainer from "../components/ChatsContainer";
 import Main from "../components/Main";
 
 export default function Home() {
-  return <div id="root">
-    <Main />
-  </div>;
+  return (
+        <>
+            <ChatsContainer />
+            <div id="root">
+                <Main />
+            </div>
+        </>
+    )
 }
