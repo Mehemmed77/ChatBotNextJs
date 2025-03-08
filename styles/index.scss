@@ -20,31 +20,25 @@
     margin: 0 auto;
     display: flex;
     flex-direction: column;
-    height: 100vh;
+    height: 87vh;
 }
 
 .chat-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     text-align: center;
     font-weight: bold;
+    padding: 10px;
 
-    div {
+    & .title-container{
         display: flex;
         align-items: center;
         gap: var(--spacing-small);
-        width: fit-content;
-        margin: 0 auto;
     }
 }
 
-body {
-    position: relative;
-}
-
 .chat-container {
-    position: absolute;
-    top: var(--spacing-small);
-    left: var(--spacing-small);
-
     > svg {
         transition: 200ms ease-in-out;
 
@@ -173,4 +167,15 @@ body {
     width: 100%;
     padding: var(--spacing-small);
     scrollbar-width: 3px;
+}
+
+.auth-container{
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.login-container, .register-container{
+    border-radius: 20px;
 }

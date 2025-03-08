@@ -1,7 +1,7 @@
 import Drawer from '@mui/material/Drawer';
 import Stack from '@mui/material/Stack';
 import { useState } from 'react';
-import ChatIcon from '@mui/icons-material/Chat';
+import MenuIcon from '@mui/icons-material/Menu';
 import Chat from './Chat';
 
 export default function ChatsContainer () {
@@ -9,7 +9,7 @@ export default function ChatsContainer () {
 
     return <>
         <div className="chat-container">
-            <ChatIcon onClick={() => setOpen(true)} sx={{ cursor: "pointer", fontSize:"30px" }} />
+            <MenuIcon onClick={() => setOpen(true)} sx={{ cursor: "pointer", fontSize:"30px" }} />
             <Drawer open={open} onClose={() => setOpen(false)}>
                 <Stack className="stack" spacing={2}>
                     <p id='chats'>Chats</p>

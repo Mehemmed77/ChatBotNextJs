@@ -1,9 +1,7 @@
 import Context from "./Context";
-import FormHeader from "./Header";
 import Message from "./Message";
 import { useContext, useRef, useEffect } from "react";
 import useAutoScroll from "./useAutoScroll";
-import BotActions from "./BotActions";
 
 export default function MessagesContainer() {
     const {messages} = useContext(Context);
@@ -11,7 +9,6 @@ export default function MessagesContainer() {
     useAutoScroll(scrollRef, messages);
 
     return <>
-        <FormHeader />
         <div className="chat-body" ref={scrollRef}>
             {messages.map((e) => <Message key={e.id} mD={e} />)}
         </div>

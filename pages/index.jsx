@@ -1,13 +1,19 @@
-import ChatsContainer from "../components/ChatsContainer";
 import Main from "../components/Main";
+import Header from "../components/Header";
+import { useState } from "react";
+import { userDataContext } from "../components/Context";
 
 export default function Home() {
-  return (
+    const [userHasLoggedIn, setUserHasLoggedIn] = useState(false);
+
+    return (
         <>
-            <ChatsContainer />
-            <div id="root">
-                <Main />
-            </div>
+            <userDataContext.Provider value={{userHasLoggedIn, setUserHasLoggedIn}}>
+                <Header />
+                <div id="root">
+                    <Main />
+                </div>
+            </userDataContext.Provider>
         </>
     )
 }
