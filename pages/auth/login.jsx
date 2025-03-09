@@ -9,9 +9,11 @@ import {
   Box,
 } from "@mui/material";
 
+import { CallLogin } from "../../components/communicateWithAuth";
+
 const LoginPage = () => {
   const [formData, setFormData] = useState({
-    email: "",
+    username: "",
     password: "",
   });
 
@@ -20,8 +22,11 @@ const LoginPage = () => {
     setFormData({ ...formData, [name]: value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    const res = await CallLogin(formData);
+    console.log(res);
+    console.log("YES");
   };
 
   return (
@@ -32,8 +37,8 @@ const LoginPage = () => {
                     Login
                 </Typography>
                 <form onSubmit={handleSubmit}>
-                    <TextField variant="outlined" margin="normal" required fullWidth type="email" id="email" label="Email Address" name="email" autoComplete="email" autoFocus 
-                            value={formData.email} onChange={handleChange}/>
+                    <TextField variant="outlined" margin="normal" required fullWidth type="text" id="email" label="Username" name="username" autoComplete="username" autoFocus 
+                            value={formData.username} onChange={handleChange}/>
                     <TextField variant="outlined" margin="normal" required fullWidth name="password" label="Password" type="password" id="password" autoComplete="current-password"
                     value={formData.password}
                     onChange={handleChange}

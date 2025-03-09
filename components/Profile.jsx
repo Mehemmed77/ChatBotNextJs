@@ -13,6 +13,7 @@ import Settings from '@mui/icons-material/Settings';
 import Logout from '@mui/icons-material/Logout';
 import { useContext, useState, useEffect } from 'react';
 import { userDataContext } from './Context';
+import Link from 'next/link';
 
 export default function Profile() {
     const {userHasLoggedIn} = useContext(userDataContext);
@@ -108,14 +109,14 @@ export default function Profile() {
                         <ListItemIcon>
                             <PersonIcon fontSize="small" />
                         </ListItemIcon>
-                            Login
+                        <Link href={"/auth/login"}>Login</Link>
                     </MenuItem>
 
                     <MenuItem onClick={handleClose}>
                     <ListItemIcon>
                         <ExitToAppIcon fontSize="small" />
                     </ListItemIcon>
-                        Logout
+                        <Link href={"/auth/register"}>Register</Link>
                     </MenuItem>
                 </div> )
             }
