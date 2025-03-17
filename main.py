@@ -1,4 +1,4 @@
-from fastapi import FastAPI, HTTPException, Depends
+from fastapi import FastAPI, HTTPException, Depends, Request
 from pydantic import BaseModel
 from fastapi.middleware.cors import CORSMiddleware
 import backend.models as models
@@ -12,9 +12,14 @@ from backend.auth import get_current_user
 app = FastAPI()
 models.Base.metadata.create_all(bind = engine)
 
+origins = [
+    "http://localhost:3000",  # Allow frontend running on localhost:3000
+    "http://127.0.0.1:3000",  # Allow frontend running on 127.0.0.1:3000
+]
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:3000"],
+    allow_origins = origins,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -54,8 +59,7 @@ async def recieve_msg(message: Message):
 db_dependency = Annotated[Session, Depends(get_db)]
 user_dependency = Annotated[dict, Depends(get_current_user)]
 
-@app.get("/", status_code = status.HTTP_200_OK)
-async def user(user: user_dependency, db: db_dependency):
-    if user is None:
-        raise HTTPException(status_code = 401, detail="Authentication failed")
-    return {"User": user}
+@app.get("/check_user")
+async def user(user: user_dependency):
+    print("Route /check_user is being called")
+    return {"user": user}

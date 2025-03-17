@@ -8,26 +8,33 @@ import {
   Paper,
   Box,
 } from "@mui/material";
+import { useRouter } from "next/router";
 
 import { CallLogin } from "../../components/communicateWithAuth";
 
+const ERROR_MESSAGE = "User does not exist or could not validate";
+
 const LoginPage = () => {
-  const [formData, setFormData] = useState({
-    username: "",
-    password: "",
-  });
+    const router = useRouter();
+    const [formData, setFormData] = useState({
+        username: "",
+        password: "",
+    });
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
-  };
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        setFormData({ ...formData, [name]: value });
+    };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    const res = await CallLogin(formData);
-    console.log(res);
-    console.log("YES");
-  };
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        const res = await CallLogin(formData);
+
+        if (res?.access_token) {
+            router.push("/");
+        }
+
+    };
 
   return (
     <div className="auth-container">

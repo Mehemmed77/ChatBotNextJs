@@ -1,14 +1,21 @@
 export default async function checkForUser() {
-    const response = await fetch("http://127.0.0.1:8000/", {
-        method: "GET",
-        credentials: "include"
-    });
+    try {
+        const response = await fetch("http://127.0.0.1:8000/auth/is-authenticated", {
+            method: "GET",
+            credentials: "include", // Ensures cookies are sent with the request
+            headers: {
+                "Content-Type": "application/json"
+            }
+        });
 
-    if (response.ok) {
+        if (!response.ok) {
+            console.log("Failed to check authentication");
+        }
+
         const data = await response.json();
-        console.log(data);
-        return data;
-    } else {
-        return null;
+        return data.is_authenticated; // Returns true or false
+    } catch (error) {
+        console.error("Error checking authentication:", error);
+        return false;
     }
 }

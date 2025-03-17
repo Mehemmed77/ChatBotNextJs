@@ -10,11 +10,10 @@ const CallLogin = async (formData) => {
                 "Content-Type": "application/x-www-form-urlencoded",
             }
         })
-
         return res.data;
     } 
     catch(e) {
-        return 
+        return e?.response?.data?.detail;
     }
 }
 

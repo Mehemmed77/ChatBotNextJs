@@ -10,6 +10,7 @@ from backend.models import Users
 from passlib.context import CryptContext
 from fastapi.security import OAuth2PasswordRequestForm, OAuth2PasswordBearer
 from jose import jwt, JWTError
+from fastapi import Request
 
 router = APIRouter(
     prefix = "/auth",
@@ -53,11 +54,13 @@ def create_access_token(username: str, user_id: int, expired_delta: timedelta):
     encode.update({"exp": expires})
     return jwt.encode(encode, SECRET_KEY, algorithm = ALGORITHM)
 
+
 @router.post("/", status_code = status.HTTP_201_CREATED)
 async def create_user(db : db_dependency, create_user_request: CreateUserRequest):
     create_user_db = Users(username = create_user_request.username, password = bcrypt_context.hash(create_user_request.password))
     db.add(create_user_db)
     db.commit()
+
 
 @router.post("/token", response_model = Token)
 async def login_for_access_token(form_data: Annotated[OAuth2PasswordRequestForm, Depends()], db: db_dependency, response: Response):
@@ -67,19 +70,56 @@ async def login_for_access_token(form_data: Annotated[OAuth2PasswordRequestForm,
         raise HTTPException(status_code = status.HTTP_401_UNAUTHORIZED, detail = "User does not exist or could not validate")
     token = create_access_token(user.username, user.id, timedelta(minutes = 20))
 
-    response.set_cookie("access_token", value = token, httponly = True, secure=True, samesite="Lax")
+    response.set_cookie("access_token", value = token, httponly = True, secure=True, samesite="Strict")
 
     return {"access_token": token, "token_type": "bearer"}
 
-async def get_current_user(token: Annotated[str, Depends(oauth2_bearer)]):
+
+async def get_current_user(request: Request, token: Annotated[str, Depends(oauth2_bearer)] = None):
+    print("yes")
     try:
-        payload = jwt.decode(token, SECRET_KEY, algorithms = [ALGORITHM])
+        if token is None:
+            token = request.cookies.get("access_token")
+
+        if not token:
+            raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED,detail="Could not validate user.",)
+
+        payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
         username = payload.get("sub")
         user_id = payload.get("id")
+
         if not all([username, user_id]):
-            raise HTTPException(status_code = status.HTTP_401_UNAUTHORIZED,
-                                detail = "Could not validate user.")
+            raise HTTPException(
+                status_code=status.HTTP_401_UNAUTHORIZED,
+                detail="Could not validate user.",
+            )
+
         return {"username": username, "id": user_id}
     except JWTError:
-            raise HTTPException(status_code = status.HTTP_401_UNAUTHORIZED,
-                                detail = "Could not validate user.")
+        print(token)
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Could not validate user.",
+        )
+
+
+@router.get("/is-authenticated")
+async def is_authenticated_user(request: Request, token: Annotated[str, Depends(oauth2_bearer)] = None):
+    try:
+        if token is None:
+            token = request.cookies.get("access_token")
+
+        if not token:
+            return {"is_authenticated": False}
+
+        payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
+        username = payload.get("sub")
+        user_id = payload.get("id")
+
+        if not username or not user_id:
+            return {"is_authenticated": False}
+
+        return {"is_authenticated": True, "username": username, "id": user_id}
+
+    except JWTError:
+        return {"is_authenticated": False}
