@@ -9,10 +9,8 @@ import {
   Box,
 } from "@mui/material";
 import { useRouter } from "next/router";
+import { login } from "../api/auth";
 
-import { CallLogin } from "../../components/communicateWithAuth";
-
-const ERROR_MESSAGE = "User does not exist or could not validate";
 
 const LoginPage = () => {
     const router = useRouter();
@@ -28,12 +26,10 @@ const LoginPage = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        const res = await CallLogin(formData);
-
-        if (res?.access_token) {
+        const res = await login(formData);
+        if(res?.username){
             router.push("/");
         }
-
     };
 
   return (

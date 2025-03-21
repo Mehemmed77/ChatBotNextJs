@@ -23,7 +23,7 @@ export default function Profile() {
     const open = Boolean(anchorEl);
 
     useEffect( () => {
-        if (userHasLoggedIn.value) setAvatar(userHasLoggedIn.value.username[0]);
+        if (userHasLoggedIn) setAvatar(userHasLoggedIn.username[0]);
     }, [userHasLoggedIn])
 
     const handleClick = (event) => {
@@ -84,7 +84,7 @@ export default function Profile() {
             anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
         >
             {
-                userHasLoggedIn.value ? (
+                userHasLoggedIn ? (
                    <div>
                     <MenuItem onClick={handleClose}>
                         <Avatar /> My account
@@ -100,7 +100,7 @@ export default function Profile() {
                     <ListItemIcon>
                         <Logout fontSize="small" />
                     </ListItemIcon>
-                        Logout
+                        <Link href={"/auth/logout"}>Logout</Link>
                     </MenuItem>
                    </div>
                 ) : (

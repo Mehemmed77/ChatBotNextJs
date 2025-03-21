@@ -1,9 +1,10 @@
 import React, { useState } from "react";
 import { Container, Typography, TextField, Button, Link, Paper, Box} from "@mui/material";
+import { register } from "../api/auth";
 
 const RegisterPage = () => {
   const [formData, setFormData] = useState({
-    email: "",
+    username: "",
     password: "",
     confirmPassword: "",
   });
@@ -13,8 +14,11 @@ const RegisterPage = () => {
     setFormData({ ...formData, [name]: value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    const formData = new FormData(e.target);
+    const res = await register(formData);
+    console.log(res);
   };
 
   return (
@@ -26,7 +30,7 @@ const RegisterPage = () => {
                 </Typography>
                 <form onSubmit={handleSubmit}>
                 
-                    <TextField variant="outlined" margin="normal" required fullWidth type="email" id="email" label="Email Address" name="email" autoComplete="email" autoFocus 
+                    <TextField variant="outlined" margin="normal" required fullWidth type="text" id="username" label="Enter your username" name="username" autoFocus 
                     value={formData.email} onChange={handleChange}/>
                     
                     <TextField variant="outlined" margin="normal" required fullWidth name="password" label="Password" type="password" id="password" autoComplete="new-password" 
