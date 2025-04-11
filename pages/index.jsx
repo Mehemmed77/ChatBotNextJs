@@ -1,19 +1,25 @@
-import Main from "../components/Main";
-import Header from "../components/Header";
-import { useState } from "react";
-import { userDataContext } from "../components/Context";
+import Link from 'next/link';
+import { useRouter } from 'next/router';
 
-export default function Home() {
-    const [userHasLoggedIn, setUserHasLoggedIn] = useState(false);
+export default function home() {
+    const router = useRouter();
 
-    return (
-        <>
-            <userDataContext.Provider value={{userHasLoggedIn, setUserHasLoggedIn}}>
-                <Header />
-                <div id="root">
-                    <Main />
+    
+    const handleClick = () => {
+        const link = `/chats/${crypto.randomUUID()}`;
+        router.push(link);
+    }
+
+    return <>
+        <div className="home-root">
+            <div className="home-container">
+                <h1>Welcome to ChatBot</h1>
+                <p>What would you like to do?</p>
+                <div className="home-button-container">
+                    <button className="home-button" onClick={handleClick}> Create new chat </button>
+                    {/* <button className="home-button">See Previous Chats</button> */}
                 </div>
-            </userDataContext.Provider>
-        </>
-    )
+            </div>
+        </div>
+    </>
 }

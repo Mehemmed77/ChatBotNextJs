@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 
-export default function useAutoScroll(ref, dependencies) {
+export default function useAutoScroll(ref, messages) {
     useEffect(() => {
         if (ref.current) ref.current.scrollTop = ref.current.scrollHeight;
-    }, dependencies)
+    }, [messages.length])
 }

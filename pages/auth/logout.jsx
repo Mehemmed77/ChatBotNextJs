@@ -18,7 +18,6 @@ const LoginPage = () => {
     const handleClick = async (e) => {
         e.preventDefault();
         const res = await logout();
-        console.log(res);   
         if (res.status == 200) {
             router.push("/")
         }
